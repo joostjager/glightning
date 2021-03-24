@@ -50,7 +50,7 @@ func (c *Client) StartUp(in, out *os.File) {
 // channel to receive  notification when the connection is set up
 func (c *Client) SocketStart(socket string, up chan bool) error {
 	c.shutdown = false
-	conn, err := net.Dial("unix", socket)
+	conn, err := net.Dial("tcp", socket)
 	if err != nil {
 		return fmt.Errorf("Unable to dial socket %s:%s", socket, err.Error())
 	}

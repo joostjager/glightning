@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/niftynei/glightning/jrpc2"
 	"log"
-	"path/filepath"
+
+	"github.com/niftynei/glightning/jrpc2"
 )
 
 // This file's the one that holds all the objects for the
@@ -26,14 +26,14 @@ func (l *Lightning) SetTimeout(secs uint) {
 	l.client.SetTimeout(secs)
 }
 
-func (l *Lightning) StartUp(rpcfile, lightningDir string) {
+func (l *Lightning) StartUp(host string) {
 	up := make(chan bool)
-	go func(l *Lightning, rpcfile, lightningDir string, up chan bool) {
-		err := l.client.SocketStart(filepath.Join(lightningDir, rpcfile), up)
+	go func(l *Lightning, host string, up chan bool) {
+		err := l.client.SocketStart(host, up)
 		if err != nil {
 			log.Fatal(err)
 		}
-	}(l, rpcfile, lightningDir, up)
+	}(l, host, up)
 	l.isUp = <-up
 }
 
